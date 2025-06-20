@@ -1,4 +1,3 @@
-import { z } from "zod";
 import { isValidEmail, isValidUsername, isValidPassword } from "./hash";
 
 export const validate = (email: string, username: string, password: string) => {
