@@ -8,8 +8,6 @@ import {
   Users,
   Star,
   ArrowRight,
-  Menu,
-  X,
   Target,
   TrendingUp,
   Award,
@@ -21,7 +19,11 @@ import {
   Lock,
   CheckCircle2,
 } from "lucide-react";
-import { useState, useEffect } from "react";
+import Button from "../components/ui/button";
+import { Card } from "../components/ui/card";
+import CardContent from "../components/ui/card_content";
+import Badge from "../components/ui/badge";
+import Navbar from "../components/NavbarForHome";
 
 const fadeInUp = {
   initial: { opacity: 0, y: 30 },
@@ -37,157 +39,11 @@ const staggerContainer = {
   },
 };
 
-
-const Button = ({ children, className, ...props }: React.ButtonHTMLAttributes<HTMLButtonElement>) => (
-  <button className={`flex justify-center items-center cursor-pointer px-4 py-2 rounded-md ${className}`} {...props}>
-    {children}
-  </button>
-);
-
-const Card = ({ children, className, ...props }: React.HTMLAttributes<HTMLDivElement>) => (
-  <div className={`bg-dark-slate rounded-lg shadow-lg ${className}`} {...props}>
-    {children}
-  </div>
-);
-
-const Badge = ({ children, className, ...props }: React.HTMLAttributes<HTMLSpanElement>) => (
-  <span
-    className={`inline-flex items-center px-3 py-1 rounded-full text-sm font-medium ${className}`}
-    {...props}
-  >
-    {children}
-  </span>
-);
-
-const CardContent = ({ children, className, ...props }: React.HTMLAttributes<HTMLDivElement>) => (
-  <div className={`p-4 ${className}`} {...props}>
-    {children}
-  </div>
-);
-
 export default function Home() {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [scrollY, setScrollY] = useState(0);
-
-  useEffect(() => {
-    const handleScroll = () => setScrollY(window.scrollY);
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
-
-  const scrollToSection = (sectionId: string) => {
-    const element = document.getElementById(sectionId);
-    if (element) {
-      element.scrollIntoView({ behavior: "smooth" });
-    }
-    setIsMenuOpen(false);
-  };
-
   return (
     <div className="min-h-screen bg-dark-slate text-white">
       {/* Navigation */}
-      <nav
-        className={`fixed top-0 w-full z-50 transition-all duration-300 ${
-          scrollY > 100
-            ? "bg-dark-slate/90 backdrop-blur-lg border-b border-gray-800"
-            : "bg-transparent"
-        }`}
-      >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
-            <div className="flex items-center space-x-2">
-              <div className="w-8 h-8 bg-gradient-to-r from-gaming-purple to-gaming-blue rounded-lg flex items-center justify-center">
-                <CheckCircle className="w-5 h-5 text-white" />
-              </div>
-              <span className="text-xl font-bold bg-gaming-blue bg-clip-text text-transparent">
-                Ascendia
-              </span>
-            </div>
-
-            <div className="hidden md:flex items-center space-x-8">
-              <button
-                onClick={() => scrollToSection("features")}
-                className="text-gray-300 hover:text-white transition-colors"
-              >
-                Features
-              </button>
-              <button
-                onClick={() => scrollToSection("skills")}
-                className="text-gray-300 hover:text-white transition-colors"
-              >
-                Skill Trees
-              </button>
-              <button
-                onClick={() => scrollToSection("testimonials")}
-                className="text-gray-300 hover:text-white transition-colors"
-              >
-                Reviews
-              </button>
-              <button
-                onClick={() => scrollToSection("pricing")}
-                className="text-gray-300 hover:text-white transition-colors"
-              >
-                Pricing
-              </button>
-            </div>
-
-            <div className="hidden md:flex items-center space-x-4">
-              <Button
-                className="text-gray-300 hover:text-white"
-              >
-                Sign In
-              </Button>
-              <Button className="px-6 py-2 bg-gradient-to-r from-gaming-purple to-gaming-blue hover:from-purple-600 hover:to-blue-600 transition-all duration-300 transform hover:scale-105">
-                Start Quest
-              </Button>
-            </div>
-
-            <button
-              className="md:hidden"
-              onClick={() => setIsMenuOpen(!isMenuOpen)}
-            >
-              {isMenuOpen ? (
-                <X className="w-6 h-6" />
-              ) : (
-                <Menu className="w-6 h-6" />
-              )}
-            </button>
-          </div>
-        </div>
-
-        {/* Mobile menu */}
-        {isMenuOpen && (
-          <motion.div
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="md:hidden bg-dark-slate/95 backdrop-blur-lg border-b border-gray-800"
-          >
-            <div className="px-4 py-4 space-y-3">
-              <button
-                onClick={() => scrollToSection("features")}
-                className="block text-gray-300 hover:text-white transition-colors"
-              >
-                Features
-              </button>
-              <button
-                onClick={() => scrollToSection("skills")}
-                className="block text-gray-300 hover:text-white transition-colors"
-              >
-                Skill Trees
-              </button>
-              <button
-                onClick={() => scrollToSection("testimonials")}
-                className="block text-gray-300 hover:text-white transition-colors"
-              >
-                Reviews
-              </button>
-              <Button className="w-full bg-gradient-to-r from-gaming-purple to-gaming-blue">
-                Start Quest
-              </Button>
-            </div>
-          </motion.div>
-        )}
-      </nav>
+      <Navbar />
 
       {/* Hero Section */}
       <section className="hero-gradient pt-20 pb-16 relative overflow-hidden">
@@ -215,7 +71,7 @@ export default function Home() {
 
               <h1 className="text-4xl md:text-6xl font-bold mb-6 leading-tight">
                 Transform Learning Into An{" "}
-                <span className="bg-gradient-to-r from-gaming-purple via-gaming-blue to-gaming-green bg-clip-text text-transparent">
+                <span className="bg-linear-to-r from-purple-700 to-blue-600 bg-clip-text text-transparent">
                   Epic Quest
                 </span>
               </h1>
@@ -229,13 +85,15 @@ export default function Home() {
 
               <div className="flex flex-col sm:flex-row gap-4 items-center justify-center lg:justify-start">
                 <Button
-                  className="w-full sm:w-auto px-8 py-4 bg-gradient-to-r from-gaming-purple to-gaming-blue hover:from-purple-600 hover:to-blue-600 transition-all duration-300 transform hover:scale-105 shadow-lg text-lg font-bold"
+                  className="w-full sm:w-auto px-8 py-4 bg-gradient-to-r from-purple-700 to-blue-600 hover:from-purple-600 hover:to-blue-600 transition-all duration-300 transform hover:scale-105 shadow-lg text-lg font-bold"
+                  onClick={() => {
+                    window.location.href = "/auth";
+                  }}
                 >
                   Begin Your Journey
                   <ArrowRight className="w-5 h-5 ml-2" />
                 </Button>
               </div>
-
             </motion.div>
 
             <motion.div
@@ -248,7 +106,7 @@ export default function Home() {
                 <CardContent className="p-0">
                   <div className="flex items-center justify-between mb-4">
                     <div className="flex items-center space-x-3">
-                      <div className="w-10 h-10 bg-gradient-to-r from-gaming-purple to-gaming-blue rounded-full flex items-center justify-center">
+                      <div className="w-10 h-10 bg-gradient-to-r from-purple-700 to-blue-600 rounded-full flex items-center justify-center">
                         <span className="text-sm font-bold">42</span>
                       </div>
                       <div>
@@ -308,9 +166,7 @@ export default function Home() {
                       </div>
                       <span className="text-sm">7-day streak!</span>
                     </div>
-                    <Button
-                      className="bg-gradient-to-r from-gaming-purple to-gaming-blue"
-                    >
+                    <Button className="bg-gradient-to-r from-purple-700 to-blue-600">
                       Continue Quest
                     </Button>
                   </div>
@@ -458,7 +314,7 @@ export default function Home() {
               {/* Level 1 - Foundation */}
               <div className="flex items-center space-x-8">
                 <motion.div
-                  className="skill-node w-16 h-16 bg-gradient-to-r from-gaming-green to-green-400 rounded-full flex items-center justify-center cursor-pointer relative group"
+                  className="skill-node w-16 h-16 bg-gradient-to-r from-green-500 to-green-400 rounded-full flex items-center justify-center cursor-pointer relative group"
                   whileHover={{ scale: 1.1 }}
                 >
                   <CheckCircle2 className="w-8 h-8 text-white" />
@@ -469,12 +325,12 @@ export default function Home() {
               </div>
 
               {/* Connection lines */}
-              <div className="w-px h-8 bg-gaming-green"></div>
+              <div className="w-px h-8 bg-green-500"></div>
 
               {/* Level 2 - Intermediate */}
               <div className="flex items-center space-x-12">
                 <motion.div
-                  className="skill-node w-16 h-16 bg-gradient-to-r from-gaming-blue to-blue-400 rounded-full flex items-center justify-center cursor-pointer relative group"
+                  className="skill-node w-16 h-16 bg-gradient-to-r from-blue-500 to-blue-400 rounded-full flex items-center justify-center cursor-pointer relative group"
                   whileHover={{ scale: 1.1 }}
                 >
                   <Palette className="w-8 h-8 text-white" />
@@ -484,7 +340,7 @@ export default function Home() {
                 </motion.div>
 
                 <motion.div
-                  className="skill-node w-16 h-16 bg-gradient-to-r from-gaming-purple to-purple-400 rounded-full flex items-center justify-center cursor-pointer relative group"
+                  className="skill-node w-16 h-16 bg-gradient-to-r from-purple-500 to-purple-400 rounded-full flex items-center justify-center cursor-pointer relative group"
                   whileHover={{ scale: 1.1 }}
                 >
                   <Code className="w-8 h-8 text-white" />
@@ -621,9 +477,9 @@ export default function Home() {
               transition={{ duration: 0.8 }}
               viewport={{ once: true }}
             >
-              <div className="w-full h-96 bg-gradient-to-br from-gaming-purple/20 to-gaming-blue/20 rounded-2xl shadow-2xl flex items-center justify-center relative overflow-hidden">
+              <div className="w-full h-96 bg-gradient-to-br from-purple-500/20 to-blue-600/20 rounded-2xl shadow-2xl flex items-center justify-center relative overflow-hidden">
                 <div className="text-center">
-                  <BarChart3 className="w-24 h-24 text-gaming-blue mx-auto mb-4" />
+                  <BarChart3 className="w-24 h-24 text-blue-600 mx-auto mb-4" />
                   <h3 className="text-2xl font-bold mb-2">Dashboard Preview</h3>
                   <p className="text-gray-300">
                     Modern interface showing analytics and growth metrics
@@ -632,7 +488,7 @@ export default function Home() {
 
                 {/* Floating achievement badges */}
                 <motion.div
-                  className="absolute -top-4 -right-4 w-16 h-16 bg-gradient-to-r from-gaming-amber to-yellow-400 rounded-full flex items-center justify-center shadow-lg"
+                  className="absolute -top-4 -right-4 w-16 h-16 bg-gradient-to-r from-amber-400 to-yellow-400 rounded-full flex items-center justify-center shadow-lg"
                   animate={{ y: [-5, 5, -5] }}
                   transition={{ duration: 3, repeat: Infinity }}
                 >
@@ -640,7 +496,7 @@ export default function Home() {
                 </motion.div>
 
                 <motion.div
-                  className="absolute -bottom-4 -left-4 w-12 h-12 bg-gradient-to-r from-gaming-green to-green-400 rounded-full flex items-center justify-center shadow-lg"
+                  className="absolute -bottom-4 -left-4 w-12 h-12 bg-gradient-to-r from-green-500 to-green-400 rounded-full flex items-center justify-center shadow-lg"
                   animate={{ scale: [1, 1.1, 1] }}
                   transition={{ duration: 2, repeat: Infinity }}
                 >
@@ -651,10 +507,9 @@ export default function Home() {
           </div>
         </div>
       </section>
-      
 
       {/* CTA Section */}
-      <section className="py-20 bg-gradient-to-r from-gaming-purple via-gaming-blue to-gaming-green relative overflow-hidden">
+      <section className="py-20 bg-gradient-to-r from-purple-500 via-blue-600 to-green-500 relative overflow-hidden">
         <div className="absolute inset-0 bg-dark-slate/50"></div>
 
         <motion.div
@@ -675,23 +530,13 @@ export default function Home() {
           <div className="flex flex-col sm:flex-row gap-4 items-center justify-center mb-12">
             <Button
               className="w-full sm:w-auto px-10 py-4 bg-white text-gaming-purple hover:bg-gray-100 transition-all duration-300 transform hover:scale-105 shadow-xl text-lg font-bold"
+              onClick={() => {
+                window.location.href = "/auth";
+              }}
             >
               Start Winning
               <ArrowRight className="w-5 h-5 ml-2" />
             </Button>
-          </div>
-
-          <div className="flex flex-wrap items-center justify-center gap-8 text-sm text-gray-300">
-            {[
-              "14-day free trial",
-              "No credit card required",
-              "Cancel anytime",
-            ].map((feature, index) => (
-              <div key={index} className="flex items-center">
-                <CheckCircle className="w-4 h-4 mr-2 text-gaming-green" />
-                {feature}
-              </div>
-            ))}
           </div>
         </motion.div>
       </section>
@@ -702,10 +547,10 @@ export default function Home() {
           <div className="grid md:grid-cols-4 gap-8">
             <div className="col-span-2">
               <div className="flex items-center space-x-2 mb-4">
-                <div className="w-8 h-8 bg-gradient-to-r from-gaming-purple to-gaming-blue rounded-lg flex items-center justify-center">
+                <div className="w-8 h-8 bg-gradient-to-r from-purple-500 to-blue-600 rounded-lg flex items-center justify-center">
                   <CheckCircle className="w-5 h-5 text-white" />
                 </div>
-                <span className="text-xl font-bold bg-gradient-to-r from-gaming-purple to-gaming-blue bg-clip-text text-transparent">
+                <span className="text-xl font-bold bg-gradient-to-r from-purple-500 to-blue-600 bg-clip-text text-transparent">
                   Ascendia
                 </span>
               </div>
@@ -790,4 +635,3 @@ export default function Home() {
     </div>
   );
 }
-
